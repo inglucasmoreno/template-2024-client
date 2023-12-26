@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../services/data.service';
 
 @Component({
   standalone: true,
@@ -6,11 +7,14 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: []
 })
-export class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dataService: DataService
+  ) { }
 
   ngOnInit() {
+    this.dataService.ubicacionActual = 'Dashboard - Inicio'
   }
 
 }

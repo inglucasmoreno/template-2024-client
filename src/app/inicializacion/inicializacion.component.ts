@@ -1,15 +1,29 @@
 import { Component, OnInit } from '@angular/core';
+import { InicializacionService } from '../services/inicializacion.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
+  standalone: true,
   selector: 'app-inicializacion',
   templateUrl: './inicializacion.component.html',
   styleUrls: []
 })
-export class InicializacionComponent implements OnInit {
+export default class InicializacionComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private inicializacionService: InicializacionService,
+    private alertService: AlertService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  inicializarSistema(): void {
+    this.alertService.loading();
+    this.inicializacionService.inicializarSistema().subscribe({
+      next: () => {
+        this.alertService.success('Sistema inicializado correctamente');
+      }, error: ({ error }) => this.alertService.errorApi(error.message)
+    })
   }
 
 }

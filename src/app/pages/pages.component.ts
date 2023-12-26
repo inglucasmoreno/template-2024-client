@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '../shared/header/header.component';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-pages',
@@ -8,11 +10,13 @@ import { RouterOutlet } from '@angular/router';
   imports: [
     CommonModule,
     RouterOutlet,
+    HeaderComponent,
+    NavbarComponent,
   ],
   templateUrl: './pages.component.html',
   styleUrls: []
 })
-export class PagesComponent implements OnInit {
+export default class PagesComponent implements OnInit {
 
   constructor() { }
 
