@@ -11,6 +11,7 @@ import { PastillaEstadoComponent } from '../../components/pastilla-estado/pastil
 import { FiltroUsuariosPipe } from '../../pipes/filtro-usuarios.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BotonGenericoComponent } from '../../components/boton-generico/boton-generico.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -56,10 +57,12 @@ export default class UsuariosComponent implements OnInit {
    constructor(
     private usuariosService: UsuariosService,
     private alertService: AlertService,
-    private dataService: DataService
+    private dataService: DataService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    console.log(this.authService.usuario);
     this.dataService.ubicacionActual = 'Dashboard - Usuarios'
     this.alertService.loading();
     this.listarUsuarios();

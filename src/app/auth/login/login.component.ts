@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import gsap from 'gsap';
 
 @Component({
   standalone: true,
@@ -37,7 +38,9 @@ export default class LoginComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    gsap.from('.gsap-contenido', { y:100, opacity: 0, duration: .2 });
+  }
 
   login(): void {
     if(this.loginForm.valid){

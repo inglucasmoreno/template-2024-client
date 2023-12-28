@@ -21,6 +21,38 @@ import { CommonModule } from '@angular/common';
 })
 export default class EditarUsuarioComponent implements OnInit {
 
+  get nombre_usuario() {
+    return this.usuarioForm.get('usuario');
+  }
+
+  get apellido() {
+    return this.usuarioForm.get('apellido');
+  }
+
+  get nombre() {
+    return this.usuarioForm.get('nombre');
+  }
+
+  get dni() {
+    return this.usuarioForm.get('dni');
+  }
+
+  get email() {
+    return this.usuarioForm.get('email');
+  }
+
+  get password() {
+    return this.usuarioForm.get('password');
+  }
+
+  get repetir() {
+    return this.usuarioForm.get('repetir');
+  }
+
+  get role() {
+    return this.usuarioForm.get('role');
+  }
+
   public id: string;
   public usuario: Usuarios;
   public usuarioForm: FormGroup;
@@ -35,19 +67,19 @@ export default class EditarUsuarioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    
     // Animaciones y Datos de ruta
     gsap.from('.gsap-contenido', { y: 100, opacity: 0, duration: .2 });
     this.dataService.ubicacionActual = 'Dashboard - Editando usuario';
 
     // Formulario reactivo
     this.usuarioForm = this.fb.group({
-      usuario: ['', Validators.required],
+      usuario: ['', [Validators.required, Validators.minLength(5)]],
       apellido: ['', Validators.required],
       nombre: ['', Validators.required],
       dni: ['', Validators.required],
-      email: ['', Validators.email],
-      role: ['USER_ROLE', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      role: ['USER_ROLE', [Validators.required, Validators.minLength(4)]],
       activo: ['true', Validators.required],
     });
 
@@ -86,33 +118,19 @@ export default class EditarUsuarioComponent implements OnInit {
 
   // Editar usuario
   editarUsuario(): void | boolean {
-
-    const { usuario, apellido, dni, nombre, email } = this.usuarioForm.value;
-
-    // Se verifica que los campos no tengan un espacio vacio
-    const campoVacio = usuario.trim() === '' ||
-      apellido.trim() === '' ||
-      dni.trim() === '' ||
-      email.trim() === '' ||
-      nombre.trim() === '';
-
-    // Se verifica que todos los campos esten rellenos
-    if (this.usuarioForm.status === 'INVALID' || campoVacio) {
-      this.alertService.formularioInvalido()
-      return false;
+    if(this.usuarioForm.valid){
+      let data: any = this.usuarioForm.value;
+      this.alertService.loading();
+  
+      this.usuariosService.actualizarUsuario(this.id, data).subscribe({
+        next: () => {
+          this.alertService.close();
+          this.router.navigateByUrl('dashboard/usuarios');
+        }, error: ({ error }) => this.alertService.errorApi(error.message)
+      });
+    }else{
+      this.usuarioForm.markAllAsTouched();
     }
-
-    let data: any = this.usuarioForm.value;
-
-    this.alertService.loading();
-
-    this.usuariosService.actualizarUsuario(this.id, data).subscribe({
-      next: () => {
-        this.alertService.close();
-        this.router.navigateByUrl('dashboard/usuarios');
-      }, error: ({ error }) => this.alertService.errorApi(error.message)
-    })
-
   }
 
   // Funcion del boton regresar

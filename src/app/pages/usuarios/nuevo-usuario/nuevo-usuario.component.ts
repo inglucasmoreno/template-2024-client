@@ -85,17 +85,13 @@ export default class NuevoUsuarioComponent implements OnInit {
   // Crear nuevo usuario
   nuevoUsuario(): void {
 
-    console.log('llega');
-
-    const { status } = this.usuarioForm;
-    const { usuario, apellido, nombre, dni, email, role, password, repetir } = this.usuarioForm.value;
-
+    const { usuario, role, password, repetir } = this.usuarioForm.value;
 
     // Se verifica si las contraseñas coinciden
-    // if (password !== repetir) {
-    //   this.alertService.info('Las contraseñas deben coincidir');
-    //   return;
-    // }
+    if (password !== repetir) {
+      this.alertService.info('Las contraseñas deben coincidir');
+      return;
+    }
 
     // Generar una constante data con usuarioForm sin el campo repetir
     const data = this.usuarioForm.value;

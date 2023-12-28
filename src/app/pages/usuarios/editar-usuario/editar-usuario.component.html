@@ -1,6 +1,6 @@
 <div class="lg:flex p-4 max-w-5xl mx-auto gsap-contenido">
-  <div class="w-full lg:w-1/2 bg-white mr-2 shadow rounded border border-gray-200">
-    <div class="flex items-center p-2 bg-gray-800 rounded-t">
+  <div class="w-full lg:w-1/2 bg-white mr-2 shadow rounded border border-gray-400">
+    <div class="flex items-center p-2 bg-gray-800 border border-gray-800 rounded-t">
       <button routerLink="/dashboard/usuarios" class="p-2 text-white hover:text-secondaryColor">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="w-5 h-5">
@@ -9,25 +9,31 @@
       </button>
       <h1 class="ml-1 text-xl text-white"> Actualizando usuario </h1>
     </div>
-    <form [formGroup]="usuarioForm" class="px-5 pt-2 pb-4">
+    <form [formGroup]="usuarioForm" class="px-5 pt-2 text-sm pb-4">
       <div class="flex flex-col lg:flex-row">
         <div class="w-full mx-2 flex-1 svelte-1l8159u">
           <div class="font-semibold mt-3 text-gray-600 text-sm">
             <span class="text-red-500"> * </span> Nombre de usuario
           </div>
-          <div class="bg-white my-2 p-1 flex">
-            <input placeholder="Ej. 34060398"
-              class="p-1 px-2 border-b-2 tranform duration-500 focus:border-secondaryColor appearance-none outline-none w-full text-gray-800 text-sm"
-              formControlName="usuario">
+          <div class="bg-white p-1">
+            <input placeholder="Ej. lmoreno" class="input-generico w-full" formControlName="usuario">
+            <p *ngIf="nombre_usuario?.touched && nombre_usuario?.errors?.['required']" class="text-error mt-1"> Campo
+              obligatorio
+            </p>
+            <p *ngIf="nombre_usuario?.touched && nombre_usuario?.errors?.['minlength']" class="text-error mt-1"> Minimo
+              {{
+              nombre_usuario?.errors?.['minlength'].requiredLength }} caracteres </p>
           </div>
         </div>
         <div class="w-full mx-2 flex-1 svelte-1l8159u">
           <div class="font-semibold mt-3 text-gray-600 text-sm">
             <span class="text-red-500"> * </span> Email
           </div>
-          <div class="bg-white my-2 p-1 flex">
+          <div class="bg-white p-1">
             <input type="email" formControlName="email" placeholder="Ej. lucasmoreno@gmail.com"
-              class="p-1 px-2 border-b-2 tranform duration-500 focus:border-secondaryColor appearance-none outline-none w-full text-gray-800 text-sm">
+              class="input-generico w-full">
+            <p *ngIf="email?.touched && email?.errors?.['required']" class="text-error mt-2"> Campo obligatorio </p>
+            <p *ngIf="email?.touched && email?.errors?.['email']" class="text-error mt-2"> Debe colocar un email </p>
           </div>
         </div>
       </div>
@@ -36,18 +42,20 @@
           <div class="font-semibold mt-3 text-gray-600 text-sm">
             <span class="text-red-500"> * </span> Apellido
           </div>
-          <div class="bg-white my-2 p-1 flex">
-            <input placeholder="Ej. Moreno" formControlName="apellido"
-              class="p-1 px-2 border-b-2 tranform duration-500 focus:border-secondaryColor appearance-none outline-none w-full text-gray-800 text-sm">
+          <div class="bg-white p-1">
+            <input placeholder="Ej. Moreno" formControlName="apellido" class="input-generico w-full">
+            <p *ngIf="apellido?.touched && apellido?.errors?.['required']" class="text-error mt-1"> Campo obligatorio
+            </p>
           </div>
         </div>
         <div class="w-full mx-2 flex-1 svelte-1l8159u">
           <div class="font-semibold mt-3 text-gray-600 text-sm">
             <span class="text-red-500"> * </span> Nombre
           </div>
-          <div class="bg-white my-2 p-1 flex">
-            <input placeholder="Ej. Lucas" formControlName="nombre"
-              class="p-1 px-2 border-b-2 tranform duration-500 focus:border-secondaryColor appearance-none outline-none w-full text-gray-800 text-sm">
+          <div class="bg-white p-1">
+            <input placeholder="Ej. Lucas" formControlName="nombre" class="input-generico w-full">
+            <p *ngIf="nombre?.touched && nombre?.errors?.['required']" class="text-error mt-1"> Campo obligatorio
+            </p>
           </div>
         </div>
       </div>
@@ -56,19 +64,18 @@
           <div class="font-semibold mt-3 text-gray-600 text-sm">
             <span class="text-red-500"> * </span> DNI
           </div>
-          <div class="bg-white my-2 p-1 flex">
-            <input placeholder="Ej. 34060398" formControlName="dni"
-              class="p-1 px-2 border-b-2 tranform duration-500 focus:border-secondaryColor appearance-none outline-none w-full text-gray-800 text-sm">
+          <div class="bg-white p-1">
+            <input placeholder="Ej. 34060398" formControlName="dni" class="input-generico w-full">
+            <p *ngIf="dni?.touched && dni?.errors?.['required']" class="text-error mt-1"> Campo obligatorio
+            </p>
           </div>
         </div>
         <div class="w-full mx-2 flex-1">
           <div class="font-semibold mt-2 text-gray-600 text-sm">
             <span class="text-red-500"> * </span> Rol
           </div>
-          <div class="bg-white my-2 flex">
-            <select
-              class="bg-white tranform duration-500 focus:border-secondaryColor p-1 py-2 w-full text-sm border-b-2 outline-none"
-              formControlName="role">
+          <div class="bg-white flex">
+            <select class="input-generico w-full mt-2" formControlName="role">
               <option value="USER_ROLE"> Usuario estandar </option>
               <option value="ADMIN_ROLE"> Administrador </option>
             </select>
@@ -80,10 +87,8 @@
           <div class="font-semibold mt-3 text-gray-600 text-sm">
             <span class="text-red-500"> * </span> Estado
           </div>
-          <div class="bg-white my-2 flex">
-            <select
-              class="bg-white tranform duration-500 focus:border-secondaryColor p-1 py-2 w-full text-sm border-b-2 outline-none"
-              formControlName="activo">
+          <div class="bg-white flex">
+            <select class="input-generico w-full" formControlName="activo">
               <option value=true> Activo </option>
               <option value=false> Inactivo </option>
             </select>
@@ -98,7 +103,7 @@
   </div>
 
   <div class="mt-2 lg:mt-0 w-full lg:w-1/2 h-full">
-    <div class="bg-white shadow p-4 rounded border border-gray-300">
+    <div class="bg-white shadow p-4 rounded border border-gray-400">
       <div *ngIf="usuario" class="flex mb-2">
         <div *ngIf="usuarioForm.value.role === 'ADMIN_ROLE'"
           class="bg-blue-100 flex items-center justify-center w-32 h-32 rounded-full shadow border border-blue-200">
