@@ -3,7 +3,7 @@ import { environments } from '../../environments/environments';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
-const baseUrl = environments.base_url;
+const urlApi = environments.base_url + '/usuarios';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class UsuariosService {
 
   // Usuario por ID
   getUsuario(id: string): Observable<any> {
-    return this.http.get(`${baseUrl}/usuarios/${id}`, {
+    return this.http.get(`${urlApi}/${id}`, {
       headers: {
         'Authorization': localStorage.getItem('token')
       }
@@ -25,7 +25,7 @@ export class UsuariosService {
 
   // Listar usuarios
   listarUsuarios(direccion: number = 1, columna: string = 'apellido'): Observable<any> {
-    return this.http.get(`${baseUrl}/usuarios`, {
+    return this.http.get(urlApi, {
       params: {
         direccion: String(direccion),
         columna
@@ -38,7 +38,7 @@ export class UsuariosService {
 
   // Nuevo usuario
   nuevoUsuario(data: any): Observable<any> {
-    return this.http.post(`${baseUrl}/usuarios`, data, {
+    return this.http.post(urlApi, data, {
       headers: {
         'Authorization': localStorage.getItem('token')
       }
@@ -47,7 +47,7 @@ export class UsuariosService {
 
   // Actualizar usuario
   actualizarUsuario(id: string, data: any): Observable<any> {
-    return this.http.patch(`${baseUrl}/usuarios/${id}`, data, {
+    return this.http.patch(`${urlApi}/${id}`, data, {
       headers: {
         'Authorization': localStorage.getItem('token')
       }
@@ -56,7 +56,7 @@ export class UsuariosService {
 
   // Actualizar password - Perfil
   actualizarPasswordPefil(id: string, data: any): Observable<any> {
-    return this.http.patch(`${baseUrl}/usuarios/password/${id}`, data, {
+    return this.http.patch(`${urlApi}/password/${id}`, data, {
       headers: {
         'Authorization': localStorage.getItem('token')
       }
